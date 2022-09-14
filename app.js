@@ -20,7 +20,7 @@ const enviar = _ => {
     to: "icaro.albar@hpcap.com.br", // list of receivers
     subject: "Hello ✔", // Subject line
     text: "Hello world?", // plain text body
-    html: "<b>Teste Nº 10</b>", // html body
+    html: "<b>Teste no servidor</b>", // html body
   }).then(message => console.log(message))
     .catch(err => console.log(err))
 }
