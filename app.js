@@ -41,7 +41,7 @@ app.post('/send', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-  res.send('Icaro Albar III')
+  res.send('Servidor do Grupo HP')
 })
 
-app.listen(4000, (req, res) => console.log('SERVIDOR EM FUNCIONAMENTO...'))
+app.listen(8080, (req, res) => console.log('SERVIDOR EM FUNCIONAMENTO...'))
