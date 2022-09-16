@@ -1,8 +1,11 @@
 "use strict";
 const express = require('express')
+var cors = require('cors')
 const app = express()
+app.use(cors())
 const nodemailer = require("nodemailer");
 require('dotenv').config()
+app.use(express.json())
 
 let transporter = nodemailer.createTransport({
   host: process.env.AWS_SES_HOST,
@@ -14,19 +17,27 @@ let transporter = nodemailer.createTransport({
   },
 });
 
-app.get('/send', (req, res) => {
+app.post('/send', (req, res) => {
   transporter.sendMail({
-    from: '"Fred Foo 👻" <tecnologia@hpcap.com.br>', // sender address
+    from: '"Contato HP Bank" <tecnologia@hpcap.com.br>', // sender address
     to: "icaro.albar@hpcap.com.br", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Teste no servidor VIII</b>", // html body
+    subject: "Mensagem do site HP Bank",
+    text: `<b>Nome:</b>${req.body.nome}<br>
+           <b>Email:</b>${req.body.email}<br>
+           <b>Telefone:</b>${req.body.telefone}<br>
+           <b>Assunto:</b>${req.body.assunto}<br>
+           <b>Mensagem:</b>${req.body.mensagem}`,
+
+    html: `<b>Nome:</b>${req.body.nome}<br>
+           <b>Email:</b>${req.body.email}<br>
+           <b>Telefone:</b>${req.body.telefone}<br>
+           <b>Assunto:</b>${req.body.assunto}<br>
+           <b>Mensagem:</b>${req.body.mensagem}`
   }).then(message => {
     console.log(message)
     console.log('E-MAIL ENVIADO!')
     res.send('e-mail enviado!')
-  })
-    .catch(err => console.log(err))
+  }).catch(err => console.log(err))
 })
 
 app.get('/', (req, res) => {
