@@ -19,20 +19,46 @@ let transporter = nodemailer.createTransport({
 
 app.post('/send', (req, res) => {
   transporter.sendMail({
-    from: '"Contato HP Bank" <tecnologia@hpcap.com.br>', // sender address
+    from: `"Contato ${req.body.empresa}" <tecnologia@hpcap.com.br>`, // sender address
     to: "icaro.albar@hpcap.com.br", // list of receivers
-    subject: "Mensagem do site HP Bank",
+    subject: `Mensagem do site ${req.body.empresa}`,
     text: `<b>Nome:</b>${req.body.nome}<br>
            <b>Email:</b>${req.body.email}<br>
            <b>Telefone:</b>${req.body.telefone}<br>
            <b>Assunto:</b>${req.body.assunto}<br>
            <b>Mensagem:</b>${req.body.mensagem}`,
 
-    html: `<b>Nome:</b>${req.body.nome}<br>
-           <b>Email:</b>${req.body.email}<br>
-           <b>Telefone:</b>${req.body.telefone}<br>
-           <b>Assunto:</b>${req.body.assunto}<br>
-           <b>Mensagem:</b>${req.body.mensagem}`
+    html: `<style>*{font-family:arial,sans-serif}a{text-decoration:none;color:#000}th,td{padding:8px}span{font-weight:800;padding-right:5px}h4,p{text-align:center}.logo{padding-bottom:10px;border-bottom:solid 4px #d3ae58}</style>
+            <div class="logo">
+            <img src="./logo${req.body.imagem}.svg" alt="Logo ${req.body.empresa}" width="100">
+            </div>
+            <div>
+            <h2>Menssagem do site ${req.body.empresa}</h2>
+            <table>
+            <tr>
+            <td><span>Nome:</span>${req.body.nome}</td>
+            </tr>
+            <tr>
+            <td><span>E-mail:</span>${req.body.email}</td>
+            </tr>
+            <tr>
+            <td><span>Telefone:</span>${req.body.telefone}</td>
+            </tr>
+            <tr>
+            <td><span>Assunto:</span>${req.body.assunto}</td>
+            </tr>
+            <tr>
+            <td><span>Mensagem:</span></td>
+            </tr>
+            <tr>
+            <td style="text-align:justify">${req.body.mensagem}</td>
+            </tr>
+            </table>
+            </div>
+            <div>
+            <p>Em breve, voltaremos com mais informativos do site.</p>
+            <h4><a href="#">${req.body.empresa}</a></h4>
+            </div>`
   }).then(message => {
     console.log(message)
     console.log('E-MAIL ENVIADO!')
