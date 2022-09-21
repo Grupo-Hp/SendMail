@@ -57,7 +57,7 @@ app.post('/send', (req, res) => {
             </div>
             <div>
             <p>Em breve, voltaremos com mais informativos do site.</p>
-            <h4><a href="#">${req.body.empresa}</a></h4>
+            <h4><a href="${req.body.site}">${req.body.empresa}</a></h4>
             </div>`
   }).then(message => {
     console.log(message)
