@@ -19,7 +19,7 @@ let transporter = nodemailer.createTransport({
 
 app.post('/send', (req, res) => {
   transporter.sendMail({
-    from: `"Contato ${req.body.empresa}" <tecnologia@hpcap.com.br>`, // sender address
+    from: `"Contato ${req.body.empresa}"`, // sender address
     to: "icaro.albar@hpcap.com.br", // list of receivers
     subject: `Mensagem do site ${req.body.empresa}`,
     text: `<b>Nome:</b>${req.body.nome}<br>
@@ -30,7 +30,7 @@ app.post('/send', (req, res) => {
 
     html: `<style>*{font-family:arial,sans-serif}a{text-decoration:none;color:#000}th,td{padding:8px}span{font-weight:800;padding-right:5px}h4,p{text-align:center}.logo{padding-bottom:10px;border-bottom:solid 4px #d3ae58}</style>
             <div class="logo">
-            <img src="./logo${req.body.imagem}.svg" alt="Logo ${req.body.empresa}" width="100">
+            <img src="https://www.hpcap.com.br/logo${req.body.imagem}.svg" alt="Logo ${req.body.empresa}" width="100">
             </div>
             <div>
             <h2>Menssagem do site ${req.body.empresa}</h2>
