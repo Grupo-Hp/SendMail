@@ -1,11 +1,17 @@
 "use strict";
 const express = require('express')
+const AWS = require('aws-sdk');
+const { AwsConfig } = require('./Credenciais');
 var cors = require('cors')
 const app = express()
 app.use(cors())
 const nodemailer = require("nodemailer");
 require('dotenv').config()
 app.use(express.json())
+
+let date = new Date().toLocaleString();
+AWS.config.update(AwsConfig);
+let ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
 
 let transporter = nodemailer.createTransport({
   host: process.env.AWS_SES_HOST,
@@ -18,8 +24,32 @@ let transporter = nodemailer.createTransport({
 });
 
 app.post('/send', (req, res) => {
+
+let params = {
+  TableName: "SEND_MAIL",
+  Item: {
+    'DATA': { S: date },
+    'EMAIL': { S: `${req.body.email}` },
+    'EMPRESA': { S: `${req.body.email}` },
+    'NOME': { S: `${req.body.email}` },
+    'TELEFONE': { S: `${req.body.email}` }, 
+    'ASSUNTO': { S: `${req.body.email}` },
+    'MENSAGEM': { S: `${req.body.email}` }
+  }
+};
+
+
+  // Call DynamoDB to add the item to the table
+  ddb.putItem(params, function (err, data) {
+    if (err) {
+      console.log("Error", err);
+    } else {
+      console.log("Success", data);
+    }
+  });
+
   transporter.sendMail({
-    from: `"Contato ${req.body.empresa}"`, // sender address
+    from: `"Contato ${req.body.empresa} tecnologia@hpcap.com.br"`, // sender address
     to: "icaro.albar@hpcap.com.br", // list of receivers
     subject: `Mensagem do site ${req.body.empresa}`,
     text: `<b>Nome:</b>${req.body.nome}<br>
