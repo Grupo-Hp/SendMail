@@ -30,11 +30,11 @@ let params = {
   Item: {
     'DATA': { S: date },
     'EMAIL': { S: `${req.body.email}` },
-    'EMPRESA': { S: `${req.body.email}` },
-    'NOME': { S: `${req.body.email}` },
-    'TELEFONE': { S: `${req.body.email}` }, 
-    'ASSUNTO': { S: `${req.body.email}` },
-    'MENSAGEM': { S: `${req.body.email}` }
+    'EMPRESA': { S: `${req.body.empresa}` },
+    'NOME': { S: `${req.body.nome}` },
+    'TELEFONE': { S: `${req.body.telefone}` }, 
+    'ASSUNTO': { S: `${req.body.assunto}` },
+    'MENSAGEM': { S: `${req.body.mensagem}` }
   }
 };
 
