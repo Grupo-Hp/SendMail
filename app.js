@@ -13,6 +13,10 @@ let date = new Date().toLocaleString();
 AWS.config.update(AwsConfig);
 let ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
 
+const dataAtual = new Date();
+const anoAtual = dataAtual. getFullYear();
+const protocolo = (min, max) => Math.floor(Math.random() *  (max - min) * min)
+
 let transporter = nodemailer.createTransport({
   host: process.env.AWS_SES_HOST,
   port: 465,
@@ -28,6 +32,7 @@ app.post('/send', (req, res) => {
 let params = {
   TableName: "SEND_MAIL",
   Item: {
+    'ID' : {S: `${anoAtual}${protocolo(10000,99999)}`},
     'DATA': { S: date },
     'EMAIL': { S: `${req.body.email}` },
     'EMPRESA': { S: `${req.body.empresa}` },
