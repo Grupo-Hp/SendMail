@@ -130,9 +130,9 @@ app.post('/send/amil', (req, res) => {
     // });
   
     transporter.sendMail({
-      from: `"Contato ${req.body.empresa} tecnologia@hpcap.com.br"`, // sender address
+      from: `"Leads ${req.body.empresa} tecnologia@hpcap.com.br"`, // sender address
       to: "icaro.albar@hpcap.com.br", // list of receivers
-      subject: `Mensagem do site ${req.body.empresa}`,
+      subject: `Novo preenchimento no site ${req.body.empresa}`,
       text: `<b>Nome:</b>${req.body.nome}<br>
              <b>Sobrenome:</b>${req.body.sobrenome}<br>
              <b>Email:</b>${req.body.email}<br>
