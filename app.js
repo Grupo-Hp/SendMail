@@ -7,15 +7,14 @@ const app = express()
 app.use(cors())
 const nodemailer = require("nodemailer");
 require('dotenv').config()
+const { v4: uuidv4 } = require('uuid');
+
 app.use(express.json())
 
 let date = new Date().toLocaleString();
 AWS.config.update(AwsConfig);
 let ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
 
-const dataAtual = new Date();
-const anoAtual = dataAtual. getFullYear();
-const protocolo = (min, max) => Math.floor(Math.random() *  (max - min) * min)
 
 let transporter = nodemailer.createTransport({
   host: process.env.AWS_SES_HOST,
@@ -106,7 +105,7 @@ app.post('/send/amil', (req, res) => {
   let params = {
     TableName: "SEND_MAIL",
     Item: {
-      'ID' : {S: `${anoAtual}${protocolo(10000,99999)}`},
+      'ID' : {S: uuidv4()},
       'DATA': { S: date },
       'EMAIL': { S: `${req.body.email}` },
       'EMPRESA': { S: `${req.body.empresa}` },
