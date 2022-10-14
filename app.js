@@ -31,7 +31,7 @@ app.post('/send', (req, res) => {
 let params = {
   TableName: "SEND_MAIL",
   Item: {
-    'ID' : {S: `${anoAtual}${protocolo(10000,99999)}`},
+    'ID' : {S: uuidv4()},
     'DATA': { S: date },
     'EMAIL': { S: `${req.body.email}` },
     'EMPRESA': { S: `${req.body.empresa}` },
