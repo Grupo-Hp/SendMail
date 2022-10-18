@@ -16,6 +16,7 @@ let dia = String(data.getDate()).padStart(2, '0');
 let mes = String(data.getMonth() + 1).padStart(2, '0');
 let ano = data.getFullYear();
 let date = dia + '/' + mes + '/' + ano;
+let hora = new Date().toLocaleTimeString('pt-BR')
 
 AWS.config.update(AwsConfig);
 let ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
@@ -34,10 +35,11 @@ let transporter = nodemailer.createTransport({
 app.post('/send', (req, res) => {
 
 let params = {
-  TableName: "SEND_MAIL",
+  TableName: "SEND_MAIL_SITES",
   Item: {
     'ID' : {S: uuidv4()},
     'DATA': { S: date },
+    'HORA': { S: hora },
     'EMAIL': { S: `${req.body.email}` },
     'EMPRESA': { S: `${req.body.empresa}` },
     'NOME': { S: `${req.body.nome}` },
@@ -108,10 +110,11 @@ let params = {
 app.post('/send/amil', (req, res) => {
 
   let params = {
-    TableName: "SEND_MAIL",
+    TableName: "LEADS_AMIL_SITE",
     Item: {
       'ID' : {S: uuidv4()},
       'DATA': { S: date },
+      'HORA': { S: hora },
       'EMAIL': { S: `${req.body.email}` },
       'EMPRESA': { S: `${req.body.empresa}` },
       'NOME': { S: `${req.body.nome}` },
@@ -124,14 +127,14 @@ app.post('/send/amil', (req, res) => {
   };
   
   
-    // Call DynamoDB to add the item to the table
-    // ddb.putItem(params, function (err, data) {
-    //   if (err) {
-    //     console.log("Error", err);
-    //   } else {
-    //     console.log("Success", data);
-    //   }
-    // });
+    //Call DynamoDB to add the item to the table
+    ddb.putItem(params, function (err, data) {
+      if (err) {
+        console.log("Error", err);
+      } else {
+        console.log("Success", data);
+      }
+    });
   
     transporter.sendMail({
       from: `"Leads ${req.body.empresa} tecnologia@hpcap.com.br"`, // sender address
@@ -190,4 +193,4 @@ app.get('/', (req, res) => {
   res.send('Servidor do Grupo HP')
 })
 
-app.listen(8080, (req, res) => console.log('SERVIDOR EM FUNCIONAMENTO'))
+app.listen(8080, (req, res) => console.log(`SERVIDOR EM FUNCIONAMENTO`))
