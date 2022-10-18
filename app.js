@@ -2,7 +2,7 @@
 const express = require('express')
 const AWS = require('aws-sdk');
 const { AwsConfig } = require('./Credenciais');
-var cors = require('cors')
+const cors = require('cors')
 const app = express()
 app.use(cors())
 const nodemailer = require("nodemailer");
@@ -11,7 +11,12 @@ const { v4: uuidv4 } = require('uuid');
 
 app.use(express.json())
 
-let date = new Date().toLocaleString();
+let data = new Date();
+let dia = String(data.getDate()).padStart(2, '0');
+let mes = String(data.getMonth() + 1).padStart(2, '0');
+let ano = data.getFullYear();
+let date = dia + '/' + mes + '/' + ano;
+
 AWS.config.update(AwsConfig);
 let ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
 
@@ -185,4 +190,4 @@ app.get('/', (req, res) => {
   res.send('Servidor do Grupo HP')
 })
 
-app.listen(8080, (req, res) => console.log('SERVIDOR EM FUNCIONAMENTO...'))
+app.listen(8080, (req, res) => console.log('SERVIDOR EM FUNCIONAMENTO'))
